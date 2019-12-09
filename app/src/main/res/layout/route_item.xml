@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="8dp"
+    >
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp"
+    >
+
+    <TextView
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/timeText"
+        android:layout_width="56dp"
+        android:layout_height="64dp"
+        android:text="3:00 AM"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/timeText"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/locationText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Madinet Nasr"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        />
+    <TextView
+        app:layout_constraintLeft_toRightOf="@id/timeText"
+        app:layout_constraintTop_toBottomOf="@id/locationText"
+        android:id="@+id/lineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="El-Tayran St. "
+        android:textSize="14dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
