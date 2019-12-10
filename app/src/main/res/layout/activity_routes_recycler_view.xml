@@ -4,9 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RoutesRecyclerView">
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/routesRecyclerView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+    tools:context=".MainActivity">
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tab_layout"
+        >
+
+
+    </FrameLayout>
+
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabIndicatorColor="@android:color/black"
+        app:tabTextColor="@android:color/white"
+        >
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/going"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Going"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/returning"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Returning"/>
+    </com.google.android.material.tabs.TabLayout>
+
+
+
+
+
 </RelativeLayout>
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--    xmlns:tools="http://schemas.android.com/tools"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="match_parent"-->
+    <!--    tools:context=".RoutesRecyclerView">-->
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+    <!--    android:id="@+id/routesRecyclerView"-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"/>-->
+    <!--</RelativeLayout>-->
