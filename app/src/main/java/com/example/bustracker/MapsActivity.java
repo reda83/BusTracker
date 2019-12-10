@@ -174,9 +174,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+//                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.child("Bus Lines").getValue();
 
-
+//                    Log.d("Map", "onDataChange: "+map.keySet());
 
                     //String idDriver=FirebaseAuth.getInstance().getCurrentUser().getUid();id driver
                     String DriverId=FirebaseAuth.getInstance().getCurrentUser().getUid();
