@@ -36,6 +36,7 @@
             android:label="@string/title_activity_maps"></activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".RoutesRecyclerView"/>
+        <activity android:name=".AdminRoutesRecyclerView"/>
         <activity android:name=".MainActivity">
 
         <intent-filter>

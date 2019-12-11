@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.myapplication.MainActivity">
+    <item
+        android:id="@+id/add_line"
+        android:orderInCategory="100"
+        android:title="Add Line"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/remove_line"
+        android:orderInCategory="100"
+        android:title="Remove Line"
+        app:showAsAction="never" />
+</menu>

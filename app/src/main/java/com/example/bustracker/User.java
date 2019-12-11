@@ -73,7 +73,9 @@ public class User {
                 }
                 else if(task.isSuccessful())
                 {
-                    Intent i=new Intent(context,RoutesRecyclerView.class);
+                    //Intent i=new Intent(context,RoutesRecyclerView.class);                            //testing
+                    Intent i=new Intent(context,AdminRoutesRecyclerView.class);
+
                     context.startActivity(i);
 //                    Toast.makeText(context,"Suceesfully Logged in",Toast.LENGTH_SHORT);
 
