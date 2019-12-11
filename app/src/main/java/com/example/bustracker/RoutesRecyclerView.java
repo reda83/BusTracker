@@ -42,7 +42,7 @@ public class RoutesRecyclerView extends AppCompatActivity {
         setContentView(R.layout.activity_routes_recycler_view);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setOnTabSelectedListener(tabListener);
-        Fragment selectedFragment = new GoingFragment();
+        Fragment selectedFragment = new GoingFragment(context);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 selectedFragment).commit();
 //        bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -57,10 +57,10 @@ public class RoutesRecyclerView extends AppCompatActivity {
 
                     switch (tab.getPosition()){
                         case 0:
-                            selectedFragment = new GoingFragment();
+                            selectedFragment = new GoingFragment(context);
                             break;
                         case 1:
-                            selectedFragment = new ReturningFragment();
+                            selectedFragment = new ReturningFragment(context);
                             break;
 //                        case R.id.nav_search:
 //                            selectedFragment = new SearchFragment();
@@ -88,29 +88,30 @@ public class RoutesRecyclerView extends AppCompatActivity {
 
 
 
-    public void BusLinesList()
-    {
-        mRecyclerView = findViewById(R.id.routesRecyclerView);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new RouteAdapter(routesList);
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
-
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
-                        startActivity(i);
-                    }
-
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
-
-    }}
+//    public void BusLinesList()
+//    {
+//        mRecyclerView = findViewById(R.id.routesRecyclerView);
+//        mRecyclerView.setHasFixedSize(true);
+//        mLayoutManager = new LinearLayoutManager(this);
+//        mAdapter = new RouteAdapter(routesList);
+//
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mRecyclerView.setAdapter(mAdapter);
+//
+//
+//        mRecyclerView.addOnItemTouchListener(
+//                new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+//                    @Override public void onItemClick(View view, int position) {
+//                        Intent i = new Intent(getApplicationContext(),MapsActivity.class);
+//                        startActivity(i);
+//                    }
+//
+//                    @Override public void onLongItemClick(View view, int position) {
+//                        // do whatever
+//                    }
+//                })
+//        );
+//
+//    }
+    }
 

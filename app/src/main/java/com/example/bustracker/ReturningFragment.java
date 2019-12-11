@@ -1,5 +1,7 @@
 package com.example.bustracker;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +30,11 @@ public class ReturningFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference("Driver");
     String location;
-//    Context context = this;
+    Context context;
+public ReturningFragment(Context context)
+{
+    this.context=context;
+}
     ArrayList<Route> routesList = new ArrayList<>();
 
     @Nullable
@@ -38,12 +44,12 @@ public class ReturningFragment extends Fragment {
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Map<String, Object> location = (Map<String, Object>) dataSnapshot.child("Bus Lines").getValue();
+                Map<String, Object> location = (Map<String, Object>) dataSnapshot.child("Bus Lines").child("Returning").getValue();
                 List<String> l = new ArrayList<>(location.keySet());
 
 
                 for(int i=0;i<l.size();i++) {
-                    routesList.add(new Route(l.get(i), dataSnapshot.child("Bus Lines").child(l.get(i)).child("Start Time").getValue(String.class), dataSnapshot.child("Bus Lines").child(l.get(i)).child("Start From").getValue(String.class)));
+                    routesList.add(new Route(l.get(i), dataSnapshot.child("Bus Lines").child("Returning").child(l.get(i)).child("Start Time").getValue(String.class), dataSnapshot.child("Bus Lines").child("Returning").child(l.get(i)).child("Start From").getValue(String.class)));
                 }
                 mRecyclerView = rootView.findViewById(R.id.routesRecyclerView);
                 mRecyclerView.setHasFixedSize(true);
@@ -54,18 +60,18 @@ public class ReturningFragment extends Fragment {
                 mRecyclerView.setAdapter(mAdapter);
 
 
-//                mRecyclerView.addOnItemTouchListener(
-//                        new RecyclerItemClickListener(this, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-//                            @Override public void onItemClick(View view, int position) {
-//                                Intent i = new Intent(,MapsActivity.class);
-//                                startActivity(i);
-//                            }
-//
-//                            @Override public void onLongItemClick(View view, int position) {
-//                                // do whatever
-//                            }
-//                        })
-//                );
+                mRecyclerView.addOnItemTouchListener(
+                        new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override public void onItemClick(View view, int position) {
+                                Intent i = new Intent(context,MapsActivity.class);
+                                startActivity(i);
+                            }
+
+                            @Override public void onLongItemClick(View view, int position) {
+                                // do whatever
+                            }
+                        })
+                );
 
 
             }
