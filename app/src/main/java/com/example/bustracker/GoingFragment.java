@@ -52,24 +52,30 @@ public GoingFragment(Context context)
                 mRecyclerView = rootView.findViewById(R.id.routesRecyclerView);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(rootView.getContext());
-                mAdapter = new RouteAdapter(routesList);
+                mAdapter = new RouteAdapter(routesList, new IOnRouteClickListener() {
+                    @Override
+                    public void OnClick(Route route) {
+                        Intent i = new Intent(context, MapsActivity.class);
+                        startActivity(i);
+                    }
+                });
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
 
 
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override public void onItemClick(View view, int position) {
-                                Intent i = new Intent(context,MapsActivity.class);
-                                startActivity(i);
-                            }
-
-                            @Override public void onLongItemClick(View view, int position) {
-                                // do whatever
-                            }
-                        })
-                );
+//                mRecyclerView.addOnItemTouchListener(
+//                        new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+//                            @Override public void onItemClick(View view, int position) {
+//                                Intent i = new Intent(context, MapsActivity.class);
+//                                startActivity(i);
+//                            }
+//
+//                            @Override public void onLongItemClick(View view, int position) {
+//                                // do whatever
+//                            }
+//                        })
+//                );
 
 
             }

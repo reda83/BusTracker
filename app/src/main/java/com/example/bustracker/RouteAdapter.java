@@ -12,9 +12,13 @@ import java.util.ArrayList;
 
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHolder> {
     private ArrayList<Route> mRouteList;
+    private IOnRouteClickListener onItemClickListener;
 
-    public RouteAdapter(ArrayList<Route> RouteList) {
+    public RouteAdapter(
+            ArrayList<Route> RouteList,
+            IOnRouteClickListener onItemClickListener) {
         mRouteList = RouteList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
@@ -27,12 +31,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RoutesViewHolder holder, int position) {
-        Route currentRoute = mRouteList.get(position);
-
-        holder.mLine.setText(currentRoute.getLine());
-        holder.mTime.setText(currentRoute.getTime());
-        holder.mLocation.setText(currentRoute.getLocation());
-
+        final Route currentRoute = mRouteList.get(position);
+        holder.bind(currentRoute);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHo
         return mRouteList.size();
     }
 
-    public static class RoutesViewHolder extends RecyclerView.ViewHolder{
+    public class RoutesViewHolder extends RecyclerView.ViewHolder{
         public TextView mTime;
         public TextView mLocation;
         public TextView mLine;
@@ -50,7 +50,18 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHo
             mTime = itemView.findViewById(R.id.timeText);
             mLocation = itemView.findViewById(R.id.locationText);
             mLine = itemView.findViewById(R.id.lineText);
+        }
 
+        public void bind(final Route route) {
+            this.mLine.setText(route.getLine());
+            this.mTime.setText(route.getTime());
+            this.mLocation.setText(route.getLocation());
+            this.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.OnClick(route);
+                }
+            });
         }
     }
 }

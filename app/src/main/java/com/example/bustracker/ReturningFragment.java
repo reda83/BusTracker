@@ -3,6 +3,7 @@ package com.example.bustracker;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,24 +55,30 @@ public ReturningFragment(Context context)
                 mRecyclerView = rootView.findViewById(R.id.routesRecyclerView);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(rootView.getContext());
-                mAdapter = new RouteAdapter(routesList);
+                mAdapter = new RouteAdapter(routesList, new IOnRouteClickListener() {
+                    @Override
+                    public void OnClick(Route route) {
+                        Intent i = new Intent(context,MapsActivity.class);
+                        startActivity(i);
+                    }
+                });
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
 
 
-                mRecyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                            @Override public void onItemClick(View view, int position) {
-                                Intent i = new Intent(context,MapsActivity.class);
-                                startActivity(i);
-                            }
-
-                            @Override public void onLongItemClick(View view, int position) {
-                                // do whatever
-                            }
-                        })
-                );
+//                mRecyclerView.addOnItemTouchListener(
+//                        new RecyclerItemClickListener(context, mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+//                            @Override public void onItemClick(View view, int position) {
+//                                Intent i = new Intent(context,MapsActivity.class);
+//                                startActivity(i);
+//                            }
+//
+//                            @Override public void onLongItemClick(View view, int position) {
+//                                // do whatever
+//                            }
+//                        })
+//                );
 
 
             }
