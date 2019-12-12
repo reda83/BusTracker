@@ -99,6 +99,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return; //el permissions
         }
         mMap.setMyLocationEnabled(true);
+        DriverTrackMove();
+        setDriverTrack();
 
 //        Polyline line = mMap.addPolyline(new PolylineOptions()
 //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
@@ -153,20 +155,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
             }
 
-            client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            myRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onSuccess(Location location) {
-                    latit=location.getLatitude();
-                    longit=location.getLongitude();
-                    String id=FirebaseAuth.getInstance().getCurrentUser().getUid();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    client.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            latit=location.getLatitude();
+                            longit=location.getLongitude();
+        //                    String id=FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                    myRef.child("Bus Lines").child("Nasr City").child("lat").setValue(latit);
-                    myRef.child("Bus Lines").child("Nasr City").child("lon").setValue(longit);
+                            myRef.child("Bus Lines").child("Going").child("Nasr City").child("lat").setValue(latit);
+                            myRef.child("Bus Lines").child("Going").child("Nasr City").child("lon").setValue(longit);
 
-                    Toast.makeText(MapsActivity.this, "Lat: "+latit+" "+"Longit: "+longit, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this, "Lat: "+latit+" "+"Longit: "+longit, Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
+
 
         }
         public void DriverTrackMove()
@@ -183,8 +196,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String BusLine= dataSnapshot.child(DriverId).child("Bus Lines").getValue(String.class);
 
                     String fullname= dataSnapshot.child(DriverId).child("FullName").getValue(String.class);
-                    Double lat= dataSnapshot.child("Bus Lines").child(BusLine).child("lat").getValue(Double.class);
-                    Double lon= dataSnapshot.child("Bus Lines").child(BusLine).child("lon").getValue(Double.class);
+                    Double lat= dataSnapshot.child("Bus Lines").child("Going").child(BusLine).child("lat").getValue(Double.class);
+                    Double lon= dataSnapshot.child("Bus Lines").child("Going").child(BusLine).child("lon").getValue(Double.class);
 //                        Double bagrb= dataSnapshot.child("Name").child("long").ge;
 
                     if(currentMarker!=null)
