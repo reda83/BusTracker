@@ -14,11 +14,16 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
@@ -47,7 +52,6 @@ import java.util.Map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     Button button;
-    Button button2;
 
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
@@ -57,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     final DatabaseReference myRef = database.getReference("Driver");
     double latit = 29.9993;
     double longit = 31.4985;
+    GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +75,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         button = findViewById(R.id.btn1);
-        button2 = findViewById(R.id.btn2);
-
-
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .setHostedDomain("miuegypt.edu.eg")
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
 
@@ -99,13 +106,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return; //el permissions
         }
         mMap.setMyLocationEnabled(true);
-        DriverTrackMove();
-        setDriverTrack();
+//        DriverTrackMove();
+//        setDriverTrack();
 
 //        Polyline line = mMap.addPolyline(new PolylineOptions()
 //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
 //                .width(10)
 //                .color(Color.BLUE)); how to draw polylines
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        //calling set location every 3 seconds
+        if(account==null){
+            final Handler ha=new Handler();
+            ha.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    setDriverTrack();
+                    ha.postDelayed(this, 3000);
+
+                }
+            },3000);}
+        else{final Handler ha=new Handler();
+            ha.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    DriverTrackMove();
+                    ha.postDelayed(this, 3000);
+
+                }
+            },3000);}
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -115,26 +144,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                        .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
 //                        .width(10)
 //                        .color(Color.BLUE));
-                DriverTrackMove();
-
-            }
-        });
-
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                setDriverTrack();
-
-//                FirebaseAuth.getInstance().signOut();
-//                String wwh=FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                String id=myRef.push().getKey();
-//                myRef.child(id).child("FullName").setValue("Reda");
-//                myRef.child(id).child("Unique ID").setValue(id);
-//                myRef.child(id).child("Email").setValue("Test2@test.com");
-//                myRef.child(id).child("Password").setValue("123abc");
-//                Toast.makeText(getApplicationContext(), wwh, Toast.LENGTH_SHORT).show();
-
+                signOut();
+//                DriverTrackMove();
 
             }
         });
@@ -196,8 +207,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String BusLine= dataSnapshot.child(DriverId).child("Bus Lines").getValue(String.class);
 
                     String fullname= dataSnapshot.child(DriverId).child("FullName").getValue(String.class);
-                    Double lat= dataSnapshot.child("Bus Lines").child("Going").child(BusLine).child("lat").getValue(Double.class);
-                    Double lon= dataSnapshot.child("Bus Lines").child("Going").child(BusLine).child("lon").getValue(Double.class);
+                    Double lat= dataSnapshot.child("Bus Lines").child("Going").child("Nasr City").child("lat").getValue(Double.class);
+                    Double lon= dataSnapshot.child("Bus Lines").child("Going").child("Nasr City").child("lon").getValue(Double.class);
 //                        Double bagrb= dataSnapshot.child("Name").child("long").ge;
 
                     if(currentMarker!=null)
@@ -213,7 +224,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     String value = dataSnapshot.toString();
 
-                    Toast.makeText(getApplicationContext(), fullname, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"get "+ fullname, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -223,4 +234,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             });
 
         }
+    private void signOut() {
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(account!=null){
+        mGoogleSignInClient.signOut()
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        finish();
+                    }
+                });
+        }
+        else {
+            FirebaseAuth.getInstance().signOut();
+        }
+    }
 }
