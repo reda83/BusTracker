@@ -3,6 +3,7 @@ package com.example.bustracker;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHolder> {
     private ArrayList<Route> mRouteList;
     private IOnRouteClickListener onItemClickListener;
+    private boolean shouldShowBtn = false;
 
     public RouteAdapter(
             ArrayList<Route> RouteList,
@@ -40,16 +42,27 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHo
         return mRouteList.size();
     }
 
-    public class RoutesViewHolder extends RecyclerView.ViewHolder{
+    public void toggleShouldShowDeleteBtn() {
+        this.shouldShowBtn = !this.shouldShowBtn;
+        this.updateRemoveBtnVisibility();
+    }
+
+    private void updateRemoveBtnVisibility() {
+        this.notifyDataSetChanged();
+    }
+
+    public class RoutesViewHolder extends RecyclerView.ViewHolder {
         public TextView mTime;
         public TextView mLocation;
         public TextView mLine;
+        public ImageView mRemoveIv;
 
         public RoutesViewHolder(@NonNull View itemView) {
             super(itemView);
             mTime = itemView.findViewById(R.id.timeText);
             mLocation = itemView.findViewById(R.id.locationText);
             mLine = itemView.findViewById(R.id.lineText);
+            mRemoveIv = itemView.findViewById(R.id.deleteIcon);
         }
 
         public void bind(final Route route) {
@@ -62,6 +75,12 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHo
                     onItemClickListener.OnClick(route);
                 }
             });
+
+            if (shouldShowBtn) {
+                mRemoveIv.setVisibility(View.VISIBLE);
+            } else {
+                mRemoveIv.setVisibility(View.INVISIBLE);
+            }
         }
     }
 }

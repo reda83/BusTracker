@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,9 +30,10 @@ public class AdminRoutesRecyclerView extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference("Driver");
-     String location;
+    String location;
     Context context = this;
     ArrayList<Route> routesList = new ArrayList<>();
+    Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class AdminRoutesRecyclerView extends AppCompatActivity {
 
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setOnTabSelectedListener(tabListener);
-        Fragment selectedFragment = new GoingFragment(context);
+        this.selectedFragment = new GoingFragment(context);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 selectedFragment).commit();
 //        bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -62,26 +65,27 @@ public class AdminRoutesRecyclerView extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        if (this.selectedFragment != null && this.selectedFragment instanceof IOnMainMenuEventListener) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.add_line) {
-            return true;
+            int id = item.getItemId();
+            if (id == R.id.add_line) {
+                ((IOnMainMenuEventListener) this.selectedFragment).onAddClicked();
+                return true;
+            } else {
+                ((IOnMainMenuEventListener) this.selectedFragment).onRemoveClicked();
+                return true;
+            }
         }
-        else {
-            return true;
-        }
 
-
+        return false;
     }
 
-    TabLayout.OnTabSelectedListener tabListener=
+    TabLayout.OnTabSelectedListener tabListener =
             new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
-                    Fragment selectedFragment = null;
 
-                    switch (tab.getPosition()){
+                    switch (tab.getPosition()) {
                         case 0:
                             selectedFragment = new GoingFragment(context);
                             break;
@@ -110,5 +114,5 @@ public class AdminRoutesRecyclerView extends AppCompatActivity {
             };
 
 
-    }
+}
 
