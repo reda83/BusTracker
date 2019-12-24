@@ -179,7 +179,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             myRef.child("Bus Lines").child("Going").child("Nasr City").child("lat").setValue(latit);
                             myRef.child("Bus Lines").child("Going").child("Nasr City").child("lon").setValue(longit);
 
-                            Toast.makeText(MapsActivity.this, "Lat: "+latit+" "+"Longit: "+longit, Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(MapsActivity.this, "Lat: "+latit+" "+"Longit: "+longit, Toast.LENGTH_SHORT).show();
 
                         }
                     });
@@ -203,10 +203,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                    Log.d("Map", "onDataChange: "+map.keySet());
 
                     //String idDriver=FirebaseAuth.getInstance().getCurrentUser().getUid();id driver
-                    String DriverId=FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    String BusLine= dataSnapshot.child(DriverId).child("Bus Lines").getValue(String.class);
+//                    String DriverId=FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                    String BusLine= dataSnapshot.child(DriverId).child("Bus Lines").getValue(String.class);
 
-                    String fullname= dataSnapshot.child(DriverId).child("FullName").getValue(String.class);
+//                    String fullname= dataSnapshot.child(DriverId).child("FullName").getValue(String.class);
                     Double lat= dataSnapshot.child("Bus Lines").child("Going").child("Nasr City").child("lat").getValue(Double.class);
                     Double lon= dataSnapshot.child("Bus Lines").child("Going").child("Nasr City").child("lon").getValue(Double.class);
 //                        Double bagrb= dataSnapshot.child("Name").child("long").ge;
@@ -224,7 +224,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     String value = dataSnapshot.toString();
 
-                    Toast.makeText(getApplicationContext(),"get "+ fullname, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(),"get "+ fullname, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -246,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 });
         }
         else {
-            FirebaseAuth.getInstance().signOut();
+            mFirebaseAuth.getInstance().signOut();
         }
     }
 }
