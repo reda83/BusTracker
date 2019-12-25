@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.RoutesViewHolder> {
     private ArrayList<Route> mRouteList;
     private IOnRouteClickListener onItemClickListener;
-    private boolean shouldShowBtn = false;
+    public boolean shouldShowBtn = false;
 
     public RouteAdapter(
             ArrayList<Route> RouteList,

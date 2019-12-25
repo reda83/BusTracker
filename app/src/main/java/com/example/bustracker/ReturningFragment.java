@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ReturningFragment extends Fragment {
+public class ReturningFragment extends Fragment implements IOnMainMenuEventListener{
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private RouteAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference("Driver");
@@ -58,8 +58,13 @@ public ReturningFragment(Context context)
                 mAdapter = new RouteAdapter(routesList, new IOnRouteClickListener() {
                     @Override
                     public void OnClick(Route route) {
+                        if(mAdapter.shouldShowBtn){
+                            //Delete case
+                            Log.d("TAG", "trash ");
+                        }
+                        else{
                         Intent i = new Intent(context,MapsActivity.class);
-                        startActivity(i);
+                        startActivity(i);}
                     }
                 });
 
@@ -92,4 +97,13 @@ public ReturningFragment(Context context)
                 return rootView;
     }
 
+    @Override
+    public void onRemoveClicked() {
+        this.mAdapter.toggleShouldShowDeleteBtn();;
+    }
+
+    @Override
+    public void onAddClicked() {
+
+    }
 }
