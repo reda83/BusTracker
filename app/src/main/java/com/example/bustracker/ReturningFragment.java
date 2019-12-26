@@ -42,7 +42,7 @@ public ReturningFragment(Context context)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_going,container,false);
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Map<String, Object> location = (Map<String, Object>) dataSnapshot.child("Bus Lines").child("Returning").getValue();
@@ -64,6 +64,10 @@ public ReturningFragment(Context context)
                         }
                         else{
                         Intent i = new Intent(context,MapsActivity.class);
+                        String BusLine=route.getLocation();
+                            Log.d("test", "not trash "+BusLine);
+                            i.putExtra("BusLine",BusLine);
+                            i.putExtra("GoingOrReturning","Returning");
                         startActivity(i);}
                     }
                 });

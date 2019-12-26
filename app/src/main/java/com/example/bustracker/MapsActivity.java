@@ -46,6 +46,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import android.os.Bundle;
 
 import java.util.Map;
 
@@ -69,6 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         mFirebaseAuth = FirebaseAuth.getInstance();
         client=LocationServices.getFusedLocationProviderClient(this);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -175,9 +177,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             latit=location.getLatitude();
                             longit=location.getLongitude();
         //                    String id=FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                            myRef.child("Bus Lines").child("Going").child("Nasr City").child("lat").setValue(latit);
-                            myRef.child("Bus Lines").child("Going").child("Nasr City").child("lon").setValue(longit);
+                            Bundle extras = getIntent().getExtras();
+                            String BusLine = extras.getString("BusLine");
+                            String GoingOrReturning = extras.getString("GoingOrReturning");
+                            myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").setValue(latit);
+                            myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lon").setValue(longit);
 
 //                            Toast.makeText(MapsActivity.this, "Lat: "+latit+" "+"Longit: "+longit, Toast.LENGTH_SHORT).show();
 
@@ -198,18 +202,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        Map<String, Object> map = (Map<String, Object>) dataSnapshot.child("Bus Lines").getValue();
-
-//                    Log.d("Map", "onDataChange: "+map.keySet());
-
-                    //String idDriver=FirebaseAuth.getInstance().getCurrentUser().getUid();id driver
-//                    String DriverId=FirebaseAuth.getInstance().getCurrentUser().getUid();
-//                    String BusLine= dataSnapshot.child(DriverId).child("Bus Lines").getValue(String.class);
-
-//                    String fullname= dataSnapshot.child(DriverId).child("FullName").getValue(String.class);
-                    Double lat= dataSnapshot.child("Bus Lines").child("Going").child("Nasr City").child("lat").getValue(Double.class);
-                    Double lon= dataSnapshot.child("Bus Lines").child("Going").child("Nasr City").child("lon").getValue(Double.class);
-//                        Double bagrb= dataSnapshot.child("Name").child("long").ge;
+                    Bundle extras = getIntent().getExtras();
+                    String BusLine = extras.getString("BusLine");
+                    String GoingOrReturning = extras.getString("GoingOrReturning");
+                    Double lat= dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").getValue(Double.class);
+                    Double lon= dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lon").getValue(Double.class);
 
                     if(currentMarker!=null)
                     {
@@ -221,10 +218,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         currentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
                     }
 
-
-                    String value = dataSnapshot.toString();
-
-//                    Toast.makeText(getApplicationContext(),"get "+ fullname, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
