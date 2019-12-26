@@ -29,7 +29,8 @@ public class User {
     FirebaseAuth mFirebaseAuth;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    final DatabaseReference myRef = database.getReference("Users");
+    final DatabaseReference myRef = database.getReference("Driver");
+    String CheckDriverOrAdmin="";
 
     public User()
     {
@@ -92,7 +93,14 @@ public class User {
 
                         }
                     });
-
+                    CheckDriverOrAdmin=getFullName();
+if(CheckDriverOrAdmin==null)//if there is no full name then he is admin
+{
+    Log.d("Admin", "onComplete: "+getFullName());
+}
+else {//else he is driver
+    Log.d("Driver", "onComplete: "+getFullName()+" "+getUID());
+}
                 }
             }
         });
