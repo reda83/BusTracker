@@ -67,8 +67,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double longit = 31.4985;
     GoogleSignInClient mGoogleSignInClient;
     GoogleSignInAccount account;
-
-
+    Bundle extras ;
+    String BusLine;
+    String GoingOrReturning;
+    ValueEventListener listner;
+    boolean isEnded;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
@@ -80,7 +83,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
+        extras = getIntent().getExtras();
+        BusLine = extras.getString("BusLine");
+         GoingOrReturning = extras.getString("GoingOrReturning");
         account = GoogleSignIn.getLastSignedInAccount(this);
         tripBut=findViewById(R.id.star_end_trip);
         if(account == null){
@@ -197,15 +202,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             //calling set location every 3 seconds
             if(account==null){
-                final Handler ha=new Handler();
-                ha.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        setDriverTrack();
-                        ha.postDelayed(this, 3000);
-
-                    }
-                },3000);}
+//                final Handler ha=new Handler();
+//                ha.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        setDriverTrack();
+//                        ha.postDelayed(this, 3000);
+//
+//                    }
+//                },3000);
+                }
             else{final Handler ha=new Handler();
                 ha.postDelayed(new Runnable() {
                     @Override
@@ -246,7 +252,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 return;
         }
 
-        myRef.addValueEventListener(new ValueEventListener() {
+        listner =myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mFusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -271,22 +277,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
         public void DriverTrackMove()
         {
-            myRef.addValueEventListener(new ValueEventListener() {
+              myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     Bundle extras = getIntent().getExtras();
                     String BusLine = extras.getString("BusLine");
                     String GoingOrReturning = extras.getString("GoingOrReturning");
-                    Double lat= dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").getValue(Double.class);
-                    Double lon= dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lon").getValue(Double.class);
+                    Double lat = dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").getValue(Double.class);
+                    Double lon = dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lon").getValue(Double.class);
 
-                    if(currentMarker!=null)
-                    {
+                    if (currentMarker != null) {
                         currentMarker.remove();
-                        currentMarker=null;
+                        currentMarker = null;
                     }
-                    if(currentMarker==null)
-                    {
+                    if (currentMarker == null) {
                         currentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
                     }
 
@@ -322,14 +326,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void changeTripStatus(View view) {
-        tripStarted = !tripStarted;
 
+        tripStarted = !tripStarted;
+        final Handler ha=new Handler();
+        Runnable obj = new Runnable() {
+            @Override
+            public void run() {
+                if(tripStarted) {
+                    setDriverTrack();
+                    ha.postDelayed(this, 3000);
+                }
+                else{
+//                    myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").setValue("''");
+
+                  }
+            }
+        };
         if(tripStarted){
             tripBut.setText("End Trip");
+            myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("isStarted").setValue("true");
+
+            if(account==null){
+
+                ha.postDelayed(obj,100); }
             //start tracking
+
+
         }
         else{
+
             tripBut.setText("Start Trip");
+            myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("isStarted").setValue("false");
+            ha.removeCallbacks(obj);
+            myRef.removeEventListener(listner);
+
             //stop tracking
         }
     }

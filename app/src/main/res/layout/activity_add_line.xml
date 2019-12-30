@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddLineActivity">
+
+    <TextView
+        android:id="@+id/register_text"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        android:text="Add Line"/>
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_width="270dp"
+        android:hint="Location"
+        android:layout_below="@+id/register_text"
+        android:layout_centerHorizontal="true"
+        />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_width="270dp"
+        android:hint="Line"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true" />
+
+
+    <TimePicker
+
+        android:id="@+id/timePicker1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editText2"
+        android:headerBackground="@color/colorPrimary"
+        android:numbersSelectorColor="@color/colorPrimary"
+        android:scaleX="0.70"
+        android:scaleY="0.70" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+        android:text="Next"
+        android:onClick="next"
+        android:textColor="@android:color/white"
+        android:background="@drawable/buttom_radius"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/timePicker1"
+        />
+
+</RelativeLayout>
