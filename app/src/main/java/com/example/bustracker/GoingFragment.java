@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -70,8 +72,10 @@ public class GoingFragment extends Fragment implements IOnMainMenuEventListener 
                         }
                         else {
                             String isStarted = dataSnapshot.child("Bus Lines").child("Going").child(route.getLocation()).child("isStarted").getValue(String.class);
+                            GoogleSignInAccount account;
+                            account = GoogleSignIn.getLastSignedInAccount(context);
 
-                            if (isStarted.equals("false")) {
+                            if (isStarted.equals("false")&& account!=null) {
                                 Toast.makeText(getContext(), "Trip did not start yet", Toast.LENGTH_SHORT).show();
                             } else {
                                 Intent i = new Intent(context, MapsActivity.class);
