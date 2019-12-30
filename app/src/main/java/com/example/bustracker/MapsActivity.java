@@ -49,6 +49,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -251,6 +253,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 // for Activity#requestPermissions for more details.
                 return;
         }
+
+
+//        List<LatLng> line = new ArrayList<>();
+//        line.add(new LatLng(29.993058, 31.417643));
+//        line.add(new LatLng(29.996336, 31.419788));
+//        line.add(new LatLng(29.996425, 31.419915));
+//        line.add(new LatLng(29.996588, 31.419944));
+//
+//
+//        myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("Line").setValue(line);
+
 
         listner =myRef.addValueEventListener(new ValueEventListener() {
             @Override

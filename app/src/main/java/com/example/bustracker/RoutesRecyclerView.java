@@ -18,14 +18,18 @@ import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -49,6 +53,37 @@ public class RoutesRecyclerView extends AppCompatActivity {
         Fragment selectedFragment = new GoingFragment(context);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 selectedFragment).commit();
+        List<LatLng> line = new ArrayList<>();
+        line.add(new LatLng(29.993058, 31.417643));
+        line.add(new LatLng(29.996336, 31.419788));
+        line.add(new LatLng(29.996425, 31.419915));
+        line.add(new LatLng(29.996588, 31.419944));
+        myRef.child("Bus Lines").child("Going").child("Sheraton").child("Line").setValue(line);
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+//                List<LatLng> retrivedlines = new ArrayList<>();
+//                retrivedlines= (List<LatLng>) dataSnapshot.child("Bus Lines").child("Going").child("Sheraton").child("Line").getValue(Map.class);
+//                Toast.makeText(getApplicationContext(),""+retrivedlines.get(0).longitude+retrivedlines.get(0).latitude,Toast.LENGTH_SHORT).show();
+                Map<String,String> mymap = new HashMap<String, String>();
+               ArrayList<HashMap<String,Double>> retrivedlines;
+                 retrivedlines =(ArrayList<HashMap<String,Double>>) dataSnapshot.child("Bus Lines").child("Going").child("Sheraton").child("Line").getValue();
+//                LatLng hi = retrivedlines.get(0);
+//
+                 Toast.makeText(getApplicationContext(),""+ retrivedlines.get(0).get("latitude"),Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
 //        bottomNav.setOnNavigationItemSelectedListener(navListener);
         //the method below to get any information about the signed in user
 //        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
