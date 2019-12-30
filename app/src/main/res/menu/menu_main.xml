@@ -9,7 +9,12 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/remove_line"
-        android:orderInCategory="100"
+        android:orderInCategory="101"
         android:title="Remove Line"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/register_driver"
+        android:orderInCategory="102"
+        android:title="Register Driver"
         app:showAsAction="never" />
 </menu>

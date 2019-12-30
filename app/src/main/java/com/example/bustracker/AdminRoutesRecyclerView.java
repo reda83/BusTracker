@@ -1,6 +1,7 @@
 package com.example.bustracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -71,9 +72,14 @@ public class AdminRoutesRecyclerView extends AppCompatActivity {
             if (id == R.id.add_line) {
                 ((IOnMainMenuEventListener) this.selectedFragment).onAddClicked();
                 return true;
-            } else {
+            }
+            else if(id == R.id.remove_line) {
                 ((IOnMainMenuEventListener) this.selectedFragment).onRemoveClicked();
                 return true;
+            }
+            else{
+                Intent i = new Intent(this,  SignupActivity.class);
+                startActivity(i);
             }
         }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bustracker">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -33,13 +32,12 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".RoutesRecyclerView"/>
-        <activity android:name=".AdminRoutesRecyclerView"/>
+        <activity android:name=".RoutesRecyclerView" />
+        <activity android:name=".AdminRoutesRecyclerView" />
         <activity android:name=".MainActivity">
-
-        <intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
