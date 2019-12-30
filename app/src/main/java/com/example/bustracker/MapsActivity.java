@@ -189,6 +189,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //        DriverTrackMove();
             //        setDriverTrack();
 
+
+                    Polyline line = mMap.addPolyline(new PolylineOptions()
+                            .add(new LatLng(29.993058, 31.417643),
+                                    new LatLng(29.996336, 31.419788),
+                                    new LatLng(29.996425, 31.419915)
+                                    ,new LatLng(29.996588, 31.419944))
+                            .width(10)
+                            .color(Color.BLUE));
+
 //        Polyline line = mMap.addPolyline(new PolylineOptions()
 //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
 //                .width(10)
@@ -198,6 +207,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
             //                .width(10)
             //                .color(Color.BLUE)); how to draw polylines
+
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
             //calling set location every 3 seconds
