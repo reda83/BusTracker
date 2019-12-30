@@ -53,7 +53,8 @@ import java.util.Map;
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     Button button;
-
+    Button tripBut;
+    boolean tripStarted ;
     private FusedLocationProviderClient client;
     private GoogleMap mMap;
     Marker currentMarker = null;
@@ -63,11 +64,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double latit = 29.9993;
     double longit = 31.4985;
     GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInAccount account;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        account = GoogleSignIn.getLastSignedInAccount(this);
+        tripBut=findViewById(R.id.star_end_trip);
+        if(account == null){
+            tripBut.setVisibility(View.VISIBLE);
+
+        }
         mFirebaseAuth = FirebaseAuth.getInstance();
         client=LocationServices.getFusedLocationProviderClient(this);
 
@@ -77,6 +87,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         button = findViewById(R.id.btn1);
+        tripStarted = false;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .setHostedDomain("miuegypt.edu.eg")
                 .requestEmail()
@@ -115,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
 //                .width(10)
 //                .color(Color.BLUE)); how to draw polylines
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
 
         //calling set location every 3 seconds
         if(account==null){
@@ -240,6 +251,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         else {
             mFirebaseAuth.getInstance().signOut();
+        }
+    }
+
+    public void changeTripStatus(View view) {
+        tripStarted = !tripStarted;
+
+        if(tripStarted){
+            tripBut.setText("End Trip");
+            //start tracking
+        }
+        else{
+            tripBut.setText("Start Trip");
+            //stop tracking
         }
     }
 }
