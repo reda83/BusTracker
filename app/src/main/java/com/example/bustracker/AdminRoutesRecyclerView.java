@@ -70,7 +70,8 @@ public class AdminRoutesRecyclerView extends AppCompatActivity {
 
             int id = item.getItemId();
             if (id == R.id.add_line) {
-                ((IOnMainMenuEventListener) this.selectedFragment).onAddClicked();
+                Intent i = new Intent(this,  AddLineActivity.class);
+                startActivity(i);
                 return true;
             }
             else if(id == R.id.remove_line) {

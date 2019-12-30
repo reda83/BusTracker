@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,13 +68,20 @@ public class GoingFragment extends Fragment implements IOnMainMenuEventListener 
                             }
 
                         }
-                        else{
-                            Intent i = new Intent(context,MapsActivity.class);
-                            String BusLine=route.getLocation();
-                            Log.d("test", "not trash "+BusLine);
-                            i.putExtra("BusLine",BusLine);
-                            i.putExtra("GoingOrReturning","Going");
-                            startActivity(i);}
+                        else {
+                            String isStarted = dataSnapshot.child("Bus Lines").child("Going").child(route.getLocation()).child("isStarted").getValue(String.class);
+
+                            if (isStarted.equals("false")) {
+                                Toast.makeText(getContext(), "Trip did not start yet", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Intent i = new Intent(context, MapsActivity.class);
+                                String BusLine = route.getLocation();
+                                Log.d("test", "not trash " + BusLine);
+                                i.putExtra("BusLine", BusLine);
+                                i.putExtra("GoingOrReturning", "Going");
+                                startActivity(i);
+                            }
+                        }
                     }
                 });
 
