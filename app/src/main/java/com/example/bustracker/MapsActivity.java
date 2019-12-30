@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -299,7 +300,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     private void signOut() {
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        Intent i = new Intent(this,MainActivity.class);
         if(account!=null){
         mGoogleSignInClient.signOut()
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
@@ -308,9 +311,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         finish();
                     }
                 });
+            startActivity(i);
+
         }
         else {
             mFirebaseAuth.getInstance().signOut();
+            startActivity(i);
+
         }
     }
 
