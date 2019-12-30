@@ -43,7 +43,7 @@ public class GoingFragment extends Fragment implements IOnMainMenuEventListener 
         final View rootView = inflater.inflate(R.layout.fragment_going, container, false);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 Map<String, Object> location = (Map<String, Object>) dataSnapshot.child("Bus Lines").child("Going").getValue();
                 List<String> l = new ArrayList<>(location.keySet());
 
@@ -60,7 +60,13 @@ public class GoingFragment extends Fragment implements IOnMainMenuEventListener 
                         if(mAdapter.shouldShowBtn){
                             //Delete case
 
-                                                  }
+                            if(dataSnapshot.child("Bus Lines").child("Going").child(route.getLocation()).exists())
+                            {
+                                myRef.child("Bus Lines").child("Going").child(route.getLocation()).removeValue();
+                                //Refresh lesa
+                            }
+
+                        }
                         else{
                             Intent i = new Intent(context,MapsActivity.class);
                             String BusLine=route.getLocation();

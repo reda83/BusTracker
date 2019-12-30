@@ -44,7 +44,7 @@ public ReturningFragment(Context context)
         final View rootView = inflater.inflate(R.layout.fragment_going,container,false);
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 Map<String, Object> location = (Map<String, Object>) dataSnapshot.child("Bus Lines").child("Returning").getValue();
                 List<String> l = new ArrayList<>(location.keySet());
 
@@ -60,7 +60,11 @@ public ReturningFragment(Context context)
                     public void OnClick(Route route) {
                         if(mAdapter.shouldShowBtn){
                             //Delete case
-                            Log.d("TAG", "trash ");
+                            if(dataSnapshot.child("Bus Lines").child("Returning").child(route.getLocation()).exists())
+                            {
+                                myRef.child("Bus Lines").child("Returning").child(route.getLocation()).removeValue();
+                                //refresh lesa
+                        }
                         }
                         else{
                         Intent i = new Intent(context,MapsActivity.class);
