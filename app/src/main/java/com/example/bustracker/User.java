@@ -25,7 +25,7 @@ public class User {
     private String Email;
     private String Password;
     private String UID;
-
+    private boolean isAdmin;
     FirebaseAuth mFirebaseAuth;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -74,33 +74,59 @@ public class User {
                 }
                 else if(task.isSuccessful())
                 {
-                    //Intent i=new Intent(context,RoutesRecyclerView.class);                            //testing
-                    Intent i=new Intent(context,AdminRoutesRecyclerView.class);
+                    setUID(mFirebaseAuth.getUid());
+myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        if(dataSnapshot.child(getUID()).exists())
+        {
+            isAdmin=false;
+        }
+        else{
+            isAdmin=true;
+        }
+if(isAdmin){
+    Intent i=new Intent(context,AdminRoutesRecyclerView.class);
+    context.startActivity(i);
 
-                    context.startActivity(i);
+}
+else{
+    Intent i=new Intent(context,RoutesRecyclerView.class);
+    context.startActivity(i);
+
+}
+
 //                    Toast.makeText(context,"Suceesfully Logged in",Toast.LENGTH_SHORT);
 
-                    setUID(mFirebaseAuth.getUid());
-                    myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                            setFullName(dataSnapshot.child(getUID()).child("FullName").getValue(String.class));//getting fullname
-                        }
+                setFullName(dataSnapshot.child(getUID()).child("FullName").getValue(String.class));//getting fullname
+            }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-                    CheckDriverOrAdmin=getFullName();
-if(CheckDriverOrAdmin==null)//if there is no full name then he is admin
-{
-    Log.d("Admin", "onComplete: "+getFullName());
-}
-else {//else he is driver
-    Log.d("Driver", "onComplete: "+getFullName()+" "+getUID());
-}
+            }
+        });
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+    }
+});
+                    //Intent i=new Intent(context,RoutesRecyclerView.class);                            //testing
+
+//                    CheckDriverOrAdmin=getFullName();
+//if(CheckDriverOrAdmin==null)//if there is no full name then he is admin
+//{
+//    Log.d("Admin", "onComplete: "+getFullName());
+//}
+//else {//else he is driver
+//    Log.d("Driver", "onComplete: "+getFullName()+" "+getUID());
+//}
                 }
             }
         });
