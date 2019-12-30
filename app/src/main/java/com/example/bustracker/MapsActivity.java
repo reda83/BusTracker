@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,6 +30,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -159,10 +162,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //        DriverTrackMove();
             //        setDriverTrack();
 
-            //        Polyline line = mMap.addPolyline(new PolylineOptions()
-            //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
-            //                .width(10)
-            //                .color(Color.BLUE)); how to draw polylines
+                    Polyline line = mMap.addPolyline(new PolylineOptions()
+                            .add(new LatLng(29.993058, 31.417643),
+                                    new LatLng(29.996336, 31.419788),
+                                    new LatLng(29.996425, 31.419915)
+                                    ,new LatLng(29.996588, 31.419944))
+                            .width(10)
+                            .color(Color.BLUE));
             GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
             //calling set location every 3 seconds
