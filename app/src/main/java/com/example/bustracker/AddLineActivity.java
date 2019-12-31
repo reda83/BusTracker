@@ -52,22 +52,11 @@ TimePicker timePicker;
         } else {
             Hour-=12;
             AM_PM = "PM";
-        final String Time=Hour+":"+Min+" " + AM_PM;
+         String Time=Hour+":"+Min+" " + AM_PM;
 //        Toast.makeText(getApplicationContext(),""+Time,Toast.LENGTH_SHORT).show();
-            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    myRef.child("Bus Lines").child("Going").child(Location).child("Start From").setValue(Line);
-                    myRef.child("Bus Lines").child("Going").child(Location).child("Start Time").setValue(Time);
-                    myRef.child("Bus Lines").child("Going").child(Location).child("isStarted").setValue("false");
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            myRef.child("Bus Lines").child("Going").child(Location).child("Start From").setValue(Line);
+            myRef.child("Bus Lines").child("Going").child(Location).child("Start Time").setValue(Time);
+            myRef.child("Bus Lines").child("Going").child(Location).child("isStarted").setValue("false");
         if(Location.isEmpty())
         {
             editText.setError("Please Input Location");
