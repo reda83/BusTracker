@@ -102,7 +102,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
-        button = findViewById(R.id.btn1);
+
         tripStarted = false;
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 //                .setHostedDomain("miuegypt.edu.eg")
@@ -236,18 +236,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 },3000);}
 
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                Polyline line = mMap.addPolyline(new PolylineOptions()
-//                        .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
-//                        .width(10)
-//                        .color(Color.BLUE));
-                    signOut();
-//                DriverTrackMove();
 
-                }
-            });
         }
 
     }
