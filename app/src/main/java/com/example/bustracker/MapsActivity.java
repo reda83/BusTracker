@@ -312,17 +312,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     Map<String,String> mymap = new HashMap<String, String>();
                     ArrayList<HashMap<String,Double>> retrivedlines;
-                    retrivedlines =(ArrayList<HashMap<String,Double>>) dataSnapshot.child("Bus Lines").child("Going").child("Sheraton").child("Line").getValue();
+                    retrivedlines =(ArrayList<HashMap<String,Double>>) dataSnapshot.child("Bus Lines").child("Going").child(BusLine).child("Line").getValue();
 //                LatLng hi = retrivedlines.get(0);
 //
-                    for(int i=0;i<retrivedlines.size();i++) {
-                        Double latLine = retrivedlines.get(i).get("latitude");
-                        Double lonLine = retrivedlines.get(i).get("longitude");
+                    Polyline line;
+                    ArrayList<LatLng> DrawLine = new ArrayList<LatLng>();
+                    if(!(retrivedlines==null)) {
+                        for (int i = 0; i < retrivedlines.size(); i++) {
+                            Double latLine = retrivedlines.get(i).get("latitude");
+                            Double lonLine = retrivedlines.get(i).get("longitude");
 
-                        Polyline line = mMap.addPolyline(new PolylineOptions()
-                        .add(new LatLng(latLine, lonLine))
-                        .width(10)
-                        .color(Color.BLUE));
+                            DrawLine.add(new LatLng(latLine, lonLine));
+
+
+                        }
+                        line = mMap.addPolyline(new PolylineOptions()
+                                .addAll(DrawLine)
+                                .width(10)
+                                .color(Color.BLUE));
                     }
 //                    Toast.makeText(getApplicationContext(),""+ retrivedlines.get(0).get("latitude"),Toast.LENGTH_SHORT).show();
 

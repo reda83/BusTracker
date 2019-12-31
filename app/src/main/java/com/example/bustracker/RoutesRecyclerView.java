@@ -54,11 +54,42 @@ public class RoutesRecyclerView extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 selectedFragment).commit();
         List<LatLng> line = new ArrayList<>();
-        line.add(new LatLng(29.993058, 31.417643));
-        line.add(new LatLng(29.996336, 31.419788));
-        line.add(new LatLng(29.996425, 31.419915));
-        line.add(new LatLng(29.996588, 31.419944));
-        myRef.child("Bus Lines").child("Going").child("Sheraton").child("Line").setValue(line);
+        line.add(new LatLng(30.1753,31.4731));
+        line.add(new LatLng(30.1745,31.4732));
+        line.add(new LatLng(30.1733,31.4740));
+        line.add(new LatLng(30.1716,31.4751));
+        line.add(new LatLng(30.1698,31.4758));
+        line.add(new LatLng(30.1716,31.4751));
+        line.add(new LatLng(30.1673,31.4767));
+        line.add(new LatLng(30.1658,31.4767));
+        line.add(new LatLng(30.1655,31.4770));
+        line.add(new LatLng(30.1656,31.4774));
+        line.add(new LatLng(30.1666,31.4775));
+        line.add(new LatLng(30.1685,31.4767));
+        line.add(new LatLng(30.1705,31.4761));
+        line.add(new LatLng(30.1722,31.4819));
+        line.add(new LatLng(30.1727,31.4851));
+        line.add(new LatLng(30.1727,31.4877));
+        line.add(new LatLng(30.1716,31.4892));
+        line.add(new LatLng(30.1710,31.4895));
+        line.add(new LatLng(30.1668,31.4897));
+        line.add(new LatLng(30.1662,31.4892));
+        line.add(new LatLng(30.1663,31.4873));
+        line.add(new LatLng(30.1663,31.4860));
+        line.add(new LatLng(30.1655,31.4854));
+        line.add(new LatLng(30.1648,31.4857));
+        line.add(new LatLng(30.1647,31.4865));
+        line.add(new LatLng(30.165251,31.488879));
+        line.add(new LatLng(30.1667,31.4980));
+        line.add(new LatLng(30.1665,31.5001));
+        line.add(new LatLng(30.1674,31.5011));
+        line.add(new LatLng(30.1681,31.5000));
+        line.add(new LatLng(30.1672,31.4978));
+        line.add(new LatLng(30.1666,31.4923));
+
+
+
+        myRef.child("Bus Lines").child("Going").child("Obour").child("Line").setValue(line);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
