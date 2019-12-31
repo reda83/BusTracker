@@ -279,8 +279,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").setValue(latit);
                             myRef.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lon").setValue(longit);
                             //Toast.makeText(MapsActivity.this, "Lat: "+latit+" "+"Longit: "+longit, Toast.LENGTH_SHORT).show();
+
+
                         }
                     });
+                Map<String,String> mymap = new HashMap<String, String>();
+                ArrayList<HashMap<String,Double>> retrivedlines;
+                retrivedlines =(ArrayList<HashMap<String,Double>>) dataSnapshot.child("Bus Lines").child("Going").child(BusLine).child("Line").getValue();
+//                LatLng hi = retrivedlines.get(0);
+//
+                Polyline line;
+                ArrayList<LatLng> DrawLine = new ArrayList<LatLng>();
+                if(!(retrivedlines==null)) {
+                    for (int i = 0; i < retrivedlines.size(); i++) {
+                        Double latLine = retrivedlines.get(i).get("latitude");
+                        Double lonLine = retrivedlines.get(i).get("longitude");
+
+                        DrawLine.add(new LatLng(latLine, lonLine));
+
+
+                    }
+                    line = mMap.addPolyline(new PolylineOptions()
+                            .addAll(DrawLine)
+                            .width(10)
+                            .color(Color.BLUE));
+                }
                 }
 
                 @Override
