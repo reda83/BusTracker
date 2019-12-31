@@ -51,7 +51,7 @@ GoogleSignInClient mGoogleSignInClient;
         Email=findViewById(R.id.editText);
         Password=findViewById(R.id.editText2);
         btnsignin=findViewById(R.id.button);
-        textViewSignUp=findViewById(R.id.textView);
+
         signin=findViewById(R.id.google_sign_in_button);
 
         signin.setOnClickListener(new View.OnClickListener() {
@@ -70,13 +70,7 @@ GoogleSignInClient mGoogleSignInClient;
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivity(i);
-            }
-        });
+
         btnsignin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
