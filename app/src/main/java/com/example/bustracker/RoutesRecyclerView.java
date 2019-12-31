@@ -67,12 +67,6 @@ public class RoutesRecyclerView extends AppCompatActivity {
 //                List<LatLng> retrivedlines = new ArrayList<>();
 //                retrivedlines= (List<LatLng>) dataSnapshot.child("Bus Lines").child("Going").child("Sheraton").child("Line").getValue(Map.class);
 //                Toast.makeText(getApplicationContext(),""+retrivedlines.get(0).longitude+retrivedlines.get(0).latitude,Toast.LENGTH_SHORT).show();
-                Map<String,String> mymap = new HashMap<String, String>();
-               ArrayList<HashMap<String,Double>> retrivedlines;
-                 retrivedlines =(ArrayList<HashMap<String,Double>>) dataSnapshot.child("Bus Lines").child("Going").child("Sheraton").child("Line").getValue();
-//                LatLng hi = retrivedlines.get(0);
-//
-                 Toast.makeText(getApplicationContext(),""+ retrivedlines.get(0).get("latitude"),Toast.LENGTH_SHORT).show();
 
             }
 

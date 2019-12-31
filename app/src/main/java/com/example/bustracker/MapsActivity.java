@@ -50,6 +50,7 @@ import com.google.firebase.database.ValueEventListener;
 import android.os.Bundle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -192,13 +193,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //        setDriverTrack();
 
 
-                    Polyline line = mMap.addPolyline(new PolylineOptions()
-                            .add(new LatLng(29.993058, 31.417643),
-                                    new LatLng(29.996336, 31.419788),
-                                    new LatLng(29.996425, 31.419915)
-                                    ,new LatLng(29.996588, 31.419944))
-                            .width(10)
-                            .color(Color.BLUE));
+//                    Polyline line = mMap.addPolyline(new PolylineOptions()
+//                            .add(new LatLng(29.993058, 31.417643),
+//                                    new LatLng(29.996336, 31.419788),
+//                                    new LatLng(29.996425, 31.419915)
+//                                    ,new LatLng(29.996588, 31.419944))
+//                            .width(10)
+//                            .color(Color.BLUE));
 
 //        Polyline line = mMap.addPolyline(new PolylineOptions()
 //                .add(new LatLng(29.993058, 31.417643), new LatLng(29.996336, 31.419788),new LatLng(29.996425, 31.419915) ,new LatLng(29.996588, 31.419944))
@@ -308,6 +309,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String GoingOrReturning = extras.getString("GoingOrReturning");
                     Double lat = dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lat").getValue(Double.class);
                     Double lon = dataSnapshot.child("Bus Lines").child(GoingOrReturning).child(BusLine).child("lon").getValue(Double.class);
+
+                    Map<String,String> mymap = new HashMap<String, String>();
+                    ArrayList<HashMap<String,Double>> retrivedlines;
+                    retrivedlines =(ArrayList<HashMap<String,Double>>) dataSnapshot.child("Bus Lines").child("Going").child("Sheraton").child("Line").getValue();
+//                LatLng hi = retrivedlines.get(0);
+//
+                    for(int i=0;i<retrivedlines.size();i++) {
+                        Double latLine = retrivedlines.get(i).get("latitude");
+                        Double lonLine = retrivedlines.get(i).get("longitude");
+
+                        Polyline line = mMap.addPolyline(new PolylineOptions()
+                        .add(new LatLng(latLine, lonLine))
+                        .width(10)
+                        .color(Color.BLUE));
+                    }
+//                    Toast.makeText(getApplicationContext(),""+ retrivedlines.get(0).get("latitude"),Toast.LENGTH_SHORT).show();
 
                     if (currentMarker != null) {
                         currentMarker.remove();
