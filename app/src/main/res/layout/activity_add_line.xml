@@ -45,7 +45,8 @@
         android:headerBackground="@color/colorPrimary"
         android:numbersSelectorColor="@color/colorPrimary"
         android:scaleX="0.70"
-        android:scaleY="0.70" />
+        android:scaleY="0.70"
+        />
 
     <Button
         android:id="@+id/button"
