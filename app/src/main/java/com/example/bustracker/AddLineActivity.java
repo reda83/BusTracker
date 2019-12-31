@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -71,10 +72,13 @@ TimePicker timePicker;
         }
         else if(!(Location.isEmpty()&&Line.isEmpty()))
             {
-                Log.d("", "next: Not Empty");
                 myRef.child("Bus Lines").child("Going").child(Location).child("Start From").setValue(Line);
                 myRef.child("Bus Lines").child("Going").child(Location).child("Start Time").setValue(Time);
                 myRef.child("Bus Lines").child("Going").child(Location).child("isStarted").setValue("false");
+                Intent i = new Intent(getApplicationContext(), MapsActivity2.class);
+                i.putExtra("Location", Location);
+                startActivity(i);
+
 
             }
 

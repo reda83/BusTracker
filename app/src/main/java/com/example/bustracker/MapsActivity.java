@@ -326,7 +326,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         currentMarker.remove();
                         currentMarker = null;
                     }
-                    if (currentMarker == null) {
+                    if (currentMarker == null) {//exception aw ay 7aga
                         currentMarker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lon)).icon(BitmapDescriptorFactory.fromResource(R.drawable.bus)));
                     }
 

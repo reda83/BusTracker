@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     boolean isRecording;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private ArrayList<LatLng> points;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference myRef = database.getReference("Driver");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +118,12 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
             },1000);
         }
         else{
-        btn.setVisibility(View.INVISIBLE);
+            Bundle extras = getIntent().getExtras();
+            String Location = extras.getString("Location");//goingwreturning
+            myRef.child("Bus Lines").child("Going").child(Location).child("Line").setValue(points);
+
+
+            btn.setVisibility(View.INVISIBLE);
         Polyline line = mMap.addPolyline(new PolylineOptions()
                 .addAll(points)
                 .width(10)
