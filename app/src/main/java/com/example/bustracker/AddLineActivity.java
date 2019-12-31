@@ -41,43 +41,42 @@ TimePicker timePicker;
     }
 
     public void next(View view) {
-        Log.d("", "next:");
-        final String Location=editText.getText().toString();
-        final String Line=editText2.getText().toString();
+         String Location=editText.getText().toString();
+         String Line=editText2.getText().toString();
         int Hour=timePicker.getHour();
         int Min=timePicker.getMinute();
+        Log.d("", "next: "+Location+Line);
         String AM_PM ;
         if(Hour < 12) {
             AM_PM = "AM";
         } else {
-            Hour-=12;
+            Hour -= 12;
             AM_PM = "PM";
-         String Time=Hour+":"+Min+" " + AM_PM;
-//        Toast.makeText(getApplicationContext(),""+Time,Toast.LENGTH_SHORT).show();
-            myRef.child("Bus Lines").child("Going").child(Location).child("Start From").setValue(Line);
-            myRef.child("Bus Lines").child("Going").child(Location).child("Start Time").setValue(Time);
-            myRef.child("Bus Lines").child("Going").child(Location).child("isStarted").setValue("false");
-        if(Location.isEmpty())
+        }
+            String Time = Hour + ":" + Min + " " + AM_PM;
+
+
+
+            if(Location.isEmpty())
         {
             editText.setError("Please Input Location");
-        }
-        else {
+            editText.requestFocus();
 
         }
-        if(Line.isEmpty())
+        else if(Line.isEmpty())
         {
             editText2.setError("Please Input Line");
+            editText2.requestFocus();
+
         }
-        else
+        else if(!(Location.isEmpty()&&Line.isEmpty()))
             {
+                Log.d("", "next: Not Empty");
+                myRef.child("Bus Lines").child("Going").child(Location).child("Start From").setValue(Line);
+                myRef.child("Bus Lines").child("Going").child(Location).child("Start Time").setValue(Time);
+                myRef.child("Bus Lines").child("Going").child(Location).child("isStarted").setValue("false");
 
             }
-        if(timePicker.toString()==null)
-        {
-
-        }
-
 
     }
-}
 }
