@@ -22,7 +22,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,9 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     private ArrayList<LatLng> points;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     final DatabaseReference myRef = database.getReference("Driver");
+    private Boolean mLocationPermissionsGranted = false;
+    private static final float DEFAULT_ZOOM = 15f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +56,38 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+    private void moveCamera(LatLng latLng, float zoom){
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+    }
 
+    private void getDeviceLocation(){
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try{
+            if(mLocationPermissionsGranted){
+
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Location currentLocation = (Location) task.getResult();
+
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                    DEFAULT_ZOOM);
+
+                            //getRouteToMarker(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()));
+
+                        }else{
+                            Toast.makeText(MapsActivity2.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }catch (SecurityException e){
+        }
+    }
 
     /**
      * Manipulates the map once available.
@@ -67,10 +103,8 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         mMap.setMyLocationEnabled(true);
+
 //        final Handler ha=new Handler();
 //        ha.postDelayed(new Runnable() {
 //            @Override
